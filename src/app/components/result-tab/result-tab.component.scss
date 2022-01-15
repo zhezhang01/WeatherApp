@@ -1,0 +1,32 @@
+#map {
+    height: 400px;
+    /* The height is 400 pixels */
+    width: 100%;
+    /* The width is the width of the web page */
+  }
+  .center { 
+    float: none; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+@media (min-width: 0px) {  
+  table {font-size:7.5px;}
+}
+@media (min-width: 544px) {  
+  table {font-size:10px;}
+}
+ 
+/* Medium devices (tablets, 768px and up) The navbar toggle appears at this breakpoint */
+@media (min-width: 768px) {  
+  table {font-size:12px;}
+}
+ 
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+  table {font-size:12px;}
+}
+ 
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {  
+  table {font-size:14px;}  
+}

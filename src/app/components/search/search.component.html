@@ -1,0 +1,46 @@
+
+ 
+ <div class="container col-lg-8" style="background-color: rgb(238, 238, 238);">
+    <form action="" #searchForm=ngForm [formControl]="formControl0&&formControl" (ngSubmit)="onSubmit()">
+        <div class="form-inline pt-4">
+            <div class="col-sm-12 text-center"><span style="font-size: 25px;">Weather Search</span><img src="assets/images/sun.png" height="20px" width="20px" style="margin-top: -10px;"></div>
+        </div>
+        <div class="form-inline mt-3">
+            <div class="col-sm-3"><label class="xrequired">Street</label></div>
+            <div class="col-sm-6 ml-4"><input class="w-100 form-control" [ngClass]="{'is-invalid': formControl0.errors && (formControl0.touched || formControl0.dirty)}" type="text"
+                name="street" id="street" required noWhitespace [formControl]="formControl0">
+              <div class="invalid-feedback is-invalid">Please enter a valid street</div></div>
+        </div>
+        <div class="form-inline mt-3">
+            <div class="col-sm-3"><label class="xrequired">City</label></div>
+            <div class="col-sm-6 ml-4"><input class="w-100 form-control"  type="text" [ngClass]="{'is-invalid': formControl.errors && (formControl.touched || formControl.dirty)}"
+                name="city" id="city" required noWhitespace matInput [formControl]="formControl" [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="Fill_citys($event)">
+                    <mat-option *ngFor="let item of autoFilter | async" [value]="item">
+                      {{item}}
+                    </mat-option>
+                </mat-autocomplete>
+              <div class="invalid-feedback is-invalid">Please enter a valid city</div></div>
+        </div>
+        <div class="form-inline mt-3">
+            <div class="col-sm-3"><label>State</label></div>
+            <div class="col-sm-3 ml-4"><select id="state" name="state" class="form-selected form-control w-100 selectpicker" [formControl]="formControlState" ><br>
+                <option *ngFor="let type of stateType" [value]="type">{{type}}</option>
+            </select></div>
+        </div>
+        <hr class="col-9">
+        <div class="form-inline mt-3">
+            <div class="col-3 ml-5"><label class="xrequired">Auto-detect loaction</label></div>
+            <div><input type="checkbox" id="button1" name="button1" [(ngModel)]="form.autolocation" (click)="change_Disable()"/></div>
+            <div class="col-3">Current Location</div>
+        </div>
+        <div class="form-inline mt-3 pb-5">
+            <div class="offset-sm-2">
+                <button type="submit" id="sub" name="sub" value="Search" class="btn btn-primary mr-2" [disabled]="!formControl0.valid||!formControl.valid"><i class="fas fa-search"></i>Search</button>
+                <button type="button" value="Clear" class="btn btn-light btn-outline-dark ml-3" (click)="clear()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-nested" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4.5 11.5A.5.5 0 0 1 5 11h10a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 1 3h10a.5.5 0 0 1 0 1H1a.5.5 0 0 1-.5-.5z"/>
+                  </svg>Clear</button>
+            </div>
+        </div>
+    </form>
+</div>

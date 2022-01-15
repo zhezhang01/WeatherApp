@@ -1,0 +1,11 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+handlers:
+  - url: /
+    static_files: dist/assignment8/index.html
+    upload: dist/assignment8/index.html
+  - url: /
+    static_dir: dist/assignment8
+skip_files:
+  - node_modules/

@@ -1,0 +1,13 @@
+label.xrequired:after {
+    content: '* ';
+    color: red;
+}
+select{
+    appearance: none;
+}
+#button1{
+    left: 0;
+    width: 1rem;
+    z-index: -1;
+    height: 1.25rem;
+}

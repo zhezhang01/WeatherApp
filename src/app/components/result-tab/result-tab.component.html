@@ -1,0 +1,152 @@
+<div id="demo" class="carousel slide center" data-ride="carousel" data-interval="false">
+  <div class="carousel-inner">
+    <div class="{{this.set_init ?  '': 'invisible'}}">
+      <div class=" {{this.loading ?  '': 'invisible'}}">
+        <div class="row " style="height: 50px"></div>
+        <div class="progress ">
+          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="30"
+              aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!this.loading&&tomorrowJson==null">
+      <div class="row" style="height: 60px"></div>
+      <ngb-alert role="alert" [dismissible]="false" type="danger" class="alert show alert-danger fade"> An error occured please try again later
+      </ngb-alert>
+    </div>
+    <div id="result_table" class="carousel-item active row center table-responsive mt-2 {{!this.loading&&tomorrowJson!=null ? '': 'invisible'}}">
+      <div class="d-flex justify-content-center mr-auto my-3 "><h2>Forecast at {{city}},{{state}}</h2></div>
+      <div class="d-flex justify-content-end">
+        <div class="d-flex my-3"><button type="button" class="btn btn-sm fav-border" style="border: 1px solid black;" (click)="city_restore()">
+            <i class="color-unchecked" name="star" *ngIf="this.starFilled()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z">
+                </path>
+              </svg></i>
+              <i class="color-checked" name="starfilled" *ngIf="!this.starFilled()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FFD306" class="bi bi-star-fill" viewBox="0 0 16 16">
+                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+              </svg></i>  
+          </button><button type="button" class="btn btn-link btn-sm text-muted" href="#demo" role="button" data-slide="next" [disabled]="statue==undefined"> Details <i
+                name="Details"><svg
+                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-chevron-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z">
+                </path>
+              </svg></i></button></div>
+      </div>
+      <ul class="nav nav-tabs justify-content-end row" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a #init_select class="nav-link active" id="DayView-tab" data-toggle="tab" href="#DayView" role="tab"
+            aria-controls="DayView" aria-selected="true">Day View</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="DailyTempChart-tab" data-toggle="tab" href="#DailyTempChart" role="tab"
+            aria-controls="DailyTempChart" aria-selected="false">Daily Temp.Chart</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="Meteogram-tab" data-toggle="tab" href="#Meteogram" role="tab"
+            aria-controls="Meteogram" aria-selected="false">Meteogram</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="DayView" role="tabpanel" aria-labelledby="DayView-tab">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Temp.High(°F)</th>
+                <th scope="col">Temp.Low(°F)</th>
+                <th scope="col">Wind Speed(mph)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rowdata of day_weather; index as i" (click)="show_Detail(i)" href="#demo" role="button" data-slide="next">
+                <th scope="row">{{i+1}}</th>
+                <td><a href="">{{rowdata.startTime}}</a></td>
+                <td><img src="{{rowdata.weather_url}}" height="33px" width="33px" />{{rowdata.weather_text}}</td>
+                <td>{{rowdata.Temp_high}}</td>
+                <td>{{rowdata.Temp_low}}</td>
+                <td>{{rowdata.windSpeed}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="DailyTempChart" role="tabpanel" aria-labelledby="DailyTempChart-tab">
+          <div id="daily_container"></div>
+        </div>
+        <div class="tab-pane fade" id="Meteogram" role="tabpanel" aria-labelledby="Meteogram-tab">
+          <div id="hourly_container"></div>
+        </div>
+      </div>
+    </div>
+    <div id="detail_table" #detail_table class="carousel-item col-sm-10 center mt-5 {{!this.loading&&tomorrowJson!=null ? '': 'invisible'}}">
+      <div class="left form-inline">
+        <button #init_button class="btn btn-outline-secondary mr-auto" href="#demo" role="button" data-slide="prev">
+          <i class="fas fa-angle-left"></i>List
+        </button>
+        <h2 class="m-auto">{{title}}</h2>
+        <a type="button" target="_blank" class="btn btn-sm btn-primary ml-auto" href="https://twitter.com/intent/tweet?text=The+temperature+in+{{city}}+,+{{state}}+on+{{title}}+is+{{Exact_Temperature}}+%C2%B0F.+The+weather+conditions+are+{{statue}}&amp;hashtags=CSCI571WeatherForecast">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-twitter" viewBox="0 0 16 16">
+            <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+          </svg>
+        </a>
+      </div>
+      <br>
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <th scope="row">Status</th>
+            <td class="col-sm-6">{{statue}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Max Temperature</th>
+            <td class="col-sm-6">{{Max_Temperature}}°F</td>
+          </tr>
+          <tr>
+            <th scope="row">Min Temperature</th>
+            <td class="col-sm-6">{{Min_Temperature}}°F</td>
+          </tr>
+          <tr>
+            <th scope="row">Apparent Temperature</th>
+            <td class="col-sm-6">{{Exact_Temperature}}°F</td>
+          </tr>
+          <tr>
+            <th scope="row">Sun Rise Time</th>
+            <td class="col-sm-6">{{Sun_Rise_Time}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Sun Set Time</th>
+            <td class="col-sm-6">{{Sun_Set_Time}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Humidity</th>
+            <td class="col-sm-6">{{Wet}} %</td>
+          </tr>
+          <tr>
+            <th scope="row">Wind Speed</th>
+            <td class="col-sm-6">{{WindSpeed}} mph</td>
+          </tr>
+          <tr>
+            <th scope="row">Visibility</th>
+            <td class="col-sm-6">{{Visibility}} mi</td>
+          </tr>
+          <tr>
+            <th scope="row">Moon Phase</th>
+            <td class="col-sm-6">{{Moon_phase}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Cloud Cover</th>
+            <td class="col-sm-6">{{CloudCover}} %</td>
+          </tr>
+        </tbody>
+      </table>
+      <div id="map"></div>
+      <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHsyWyLVRF6HsMoiADtUaHviXwquJk1Do&callback=initMap&libraries=&v=weekly"
+        async></script>
+    </div>
+  </div>
+</div>
